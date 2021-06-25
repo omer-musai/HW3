@@ -7,7 +7,7 @@ LOWEST_AVERAGE_GRADE = 50
 HIGHEST_AVERAGE_GRADE = 100
 
 
-def final_grade(input_path: str, output_path: str):
+def final_grade(input_path: str, output_path: str) -> int:
     if type(input_path) != str or type(output_path) != str:
         raise TypeError('File paths must be strings.')
 
@@ -24,14 +24,19 @@ def final_grade(input_path: str, output_path: str):
     input_file.close()
 
     output_file = open(output_path, 'w')
+    
+    sum_of_grades = 0
 
     sorted_keys = list(data.keys())
     sorted_keys.sort()
     for key in sorted_keys:
         homework_avg, grade = data[key]
         output_file.write(', '.join((key, str(homework_avg), str(grade))) + '\n')
+        sum_of_grades += grade
 
     output_file.close()
+    
+    return int(sum_of_grades / len(sorted_keys))
 
 
 def calculate_final_grade(id_number: str, homework_avg: int):
