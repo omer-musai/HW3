@@ -12,29 +12,25 @@ def final_grade(input_path: str, output_path: str) -> int:
         raise TypeError('File paths must be strings.')
 
     data = {}
-    input_file = open(input_path, 'r')
+    with open(input_path, 'r') as input_file:
+        for line in input_file:
+            if not is_legal_line(line):
+                continue
 
-    for line in input_file:
-        if not is_legal_line(line):
-            continue
+            current_data = parse_line(line)
+            data[current_data[0]] = current_data[1:]
 
-        current_data = parse_line(line)
-        data[current_data[0]] = current_data[1:]
-
-    input_file.close()
-
-    output_file = open(output_path, 'w')
     
     sum_of_grades = 0
 
     sorted_keys = list(data.keys())
     sorted_keys.sort()
-    for key in sorted_keys:
-        homework_avg, grade = data[key]
-        output_file.write(', '.join((key, str(homework_avg), str(grade))) + '\n')
-        sum_of_grades += grade
-
-    output_file.close()
+    
+    with open(output_path, 'w') as output_file:
+        for key in sorted_keys:
+            homework_avg, grade = data[key]
+            output_file.write(', '.join((key, str(homework_avg), str(grade))) + '\n')
+            sum_of_grades += grade
     
     return int(sum_of_grades / len(sorted_keys))
 
