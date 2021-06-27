@@ -63,7 +63,7 @@ def is_legal_line(line: str):
 
 
 def is_legal_id(id_to_check: str):
-    if type(id_to_check) != str:
+    if type(id_to_check) == str:
         return len(id_to_check) == ID_LENGTH and id_to_check[0] != '0' and id_to_check.isdigit()
 
     return False
